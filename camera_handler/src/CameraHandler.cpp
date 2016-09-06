@@ -43,11 +43,9 @@ void CameraHandler::handleSimulation(){
 	ros::Time now = ros::Time::now();
 
 
-  const simFloat timeStep = simGetSimulationTimeStep(); //!<- Nominal time step
 	const simFloat currentSimulationTime = simGetSimulationTime();
 
-	if (((currentSimulationTime - _lastPublishedImageTime + timeStep) >= 1.0/_acquisitionFrequency) &&
-      (pow(currentSimulationTime - _lastPublishedImageTime + timeStep, 2) - pow(currentSimulationTime - _lastPublishedImageTime, 2) >= 2*timeStep / _acquisitionFrequency )))
+	if ((currentSimulationTime - _lastPublishedImageTime) >= 1.0/_acquisitionFrequency)
   {
 
 		int resol[2];
@@ -189,7 +187,7 @@ void CameraHandler::handleSimulation(){
 
 			}
 
-			_lastPublishedImageTime = currentSimulationTime;
+			_lastPublishedImageTime += 1 / _acquisitionFrequency;
 		}
 	}
 
