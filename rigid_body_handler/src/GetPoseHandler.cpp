@@ -91,6 +91,7 @@ void GetPoseHandler::handleSimulation(){
     		// Fill the status msg
 			geometry_msgs::PoseStamped msg;
 
+      msg.header.frame_id = "world";
 			msg.pose.position.x = position[0];
 			msg.pose.position.y = position[1];
 			msg.pose.position.z = position[2];
