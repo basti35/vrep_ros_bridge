@@ -1,0 +1,3 @@
+#!/bin/bash
+
+$VREP_ROOT_DIR/vrep.sh $1
