@@ -14,15 +14,23 @@ appname="`basename "$thisscript" | sed 's,\.sh$,,'`"
 
 PARAMETERS=( ${@} )
 
-if [ -f ${PARAMETERS[0]} ]
-then
-  if [ -f `pwd`"/${PARAMETERS[0]}" ]
+FILE_PATTERN1='*ttt'
+FILE_PATTERN2='*ttm'
+for i in `seq 0 $(( ${#PARAMETERS[@]} -1 ))`
+do
+  if [ -f "${PARAMETERS[$i]}" ] && ( [[ "${PARAMETERS[$i]}" == $FILE_PATTERN1 ]] || [[ "${PARAMETERS[$i]}" == $FILE_PATTERN2 ]] )
   then
-    echo "adding pwd to scene_name"
-    PARAMETERS[0]=`pwd`"/${PARAMETERS[0]}"
+    if [ -f "$PWD/${PARAMETERS[$i]}" ]
+    then
+      PARAMETERS[$i]="$PWD/${PARAMETERS[$i]}"
+    fi
   fi
-fi
+done
 
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$dirname
 export LD_LIBRARY_PATH
+
 "$dirname/$appname" "${PARAMETERS[@]}"
+
+
+
